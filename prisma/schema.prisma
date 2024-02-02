@@ -12,22 +12,29 @@ datasource db {
 
 model User {
   id       Int     @id @default(autoincrement())
-  username String  @db.VarChar(30)
+  username String  @db.VarChar(30) @unique
   password String  @db.VarChar(72)
   email    String?
   todos    Todo[]
+
+  @@map("Users")
 }
 
 enum Status {
+  PENDING
   DOING
   DONE
 }
 
 model Todo {
-  id      Int      @id @default(autoincrement())
-  title   String   @db.VarChar(150)
-  duedate DateTime @db.Date
-  status  Status   @default(DOING)
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId  Int      @map("user_id")
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(150)
+  dueDate   DateTime @db.Date @map("due_date")
+  status    Status   @default(PENDING)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    Int      @map("user_id")
+
+  @@map("Todos")
 }

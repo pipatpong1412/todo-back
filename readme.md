@@ -6,11 +6,11 @@ JWT_KEY=
 
 ** api_service **
 
-method  path            params      body
+method  path             authen       params      body
 
-POST    /auth/register  none        {username, password, confirmPassword, email}
-POST    /auth/login     none        {username, password}
-PUT     /todo :id       :id         {title, duedate}
+POST    /auth/register      0         none        {username, password, confirmPassword, email}
+POST    /auth/login         1         none        {username, password}
+GET     /auth/me            1         none        
 
 
 Notes
